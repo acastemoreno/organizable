@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
 let pages = ["index", "holi"];
@@ -30,6 +31,14 @@ module.exports = pages.map((page) => {
             },
           ],
         },
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: ["file-loader"],
+        },
+        {
+          test: /\.scss$/,
+          use: ["style-loader", "css-loader", "sass-loader"],
+        },
       ],
     },
     plugins: [
@@ -37,6 +46,7 @@ module.exports = pages.map((page) => {
         template: `./src/${page}.html`,
         filename: `./${page}.html`,
       }),
+      new MiniCssExtractPlugin(),
     ],
   };
 });
