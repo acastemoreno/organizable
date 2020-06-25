@@ -7,6 +7,7 @@ import {
 } from "./components/request_api.js";
 
 import * as star_url from "../images/star.svg";
+import * as close_url from "../images/close.svg";
 
 refresh_board_content();
 
@@ -41,7 +42,11 @@ function refresh_board_content() {
     if (status == "error") {
       window.location.replace("login.html");
     } else {
-      generate_content_boards(boards);
+      generate_content_boards(
+        boards.filter((board) => {
+          return !board.closed;
+        })
+      );
     }
   });
 }
@@ -98,11 +103,17 @@ function append_group_boards(fragment, boards, title) {
 
     let actions_element = document.createElement("div");
     actions_element.classList.add("actions");
-    actions_element.innerHTML = `<div class="star">
+    actions_element.innerHTML = `<div class="close">
+      <img ${board.closed ? `class="closed"` : ""} src="${
+      close_url.default
+    }" alt="" />
+    </div>
+    <div class="star">
       <img ${board.starred ? `class="starred"` : ""} src="${
       star_url.default
     }" alt="" />
     </div>`;
+
     actions_element
       .querySelector(".star")
       .addEventListener("click", (event) => {
@@ -111,6 +122,22 @@ function append_group_boards(fragment, boards, title) {
           .getAttribute("board_id");
         const hash = {
           starred: board.starred ? "false" : "true",
+        };
+        patch_protected_url(`http://localhost:3000/boards/${id}`, hash).then(
+          () => {
+            refresh_board_content();
+          }
+        );
+      });
+
+    actions_element
+      .querySelector(".close")
+      .addEventListener("click", (event) => {
+        const id = event.currentTarget
+          .closest(".board")
+          .getAttribute("board_id");
+        const hash = {
+          closed: "true",
         };
         patch_protected_url(`http://localhost:3000/boards/${id}`, hash).then(
           () => {

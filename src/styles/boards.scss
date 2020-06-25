@@ -43,10 +43,16 @@
       position: relative;
 
       .actions {
+        display: flex;
+        flex-direction: row;
         position: absolute;
         bottom: 8px;
         right: 8px;
         width: fit-content;
+
+        > * {
+          margin-left: 8px;
+        }
       }
     }
 
