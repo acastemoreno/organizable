@@ -48,6 +48,19 @@
       grid-template-columns: repeat(3, 1fr);
     }
 
+    h2 {
+      margin-top: 32px;
+      margin-bottom: 16px;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 24px;
+      color: #172b4d;
+    }
+
+    h2:first-child {
+      margin-top: 0px;
+    }
+
     #control {
       margin-top: 16px;
 

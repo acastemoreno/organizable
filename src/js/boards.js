@@ -43,6 +43,13 @@ function refresh_board_content(boards) {
 
   boards_fragment = append_group_boards(
     boards_fragment,
+    starred_boards,
+    "Your Starred Boards"
+  );
+  content_board.append(boards_fragment);
+
+  boards_fragment = append_group_boards(
+    boards_fragment,
     normal_boards,
     "Your Boards"
   );
