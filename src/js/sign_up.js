@@ -27,6 +27,7 @@ async function post(url, body) {
   if (!response.ok) {
     console.log(data);
   } else {
+    localStorage.setItem("id", data.id);
     localStorage.setItem("token", data.token);
     window.location.replace("boards.html");
   }

@@ -14,7 +14,7 @@ document.querySelector(".auth_form").addEventListener("submit", (event) => {
 
 async function post(url, body) {
   const response = await fetch(url, {
-    method: "POST",
+    method: "POST", 
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
@@ -23,6 +23,7 @@ async function post(url, body) {
     console.log(data);
   } else {
     localStorage.setItem("token", data.token);
+    localStorage.setItem("id", data.id);
     window.location.replace("boards.html");
   }
 }

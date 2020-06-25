@@ -12,11 +12,12 @@ get_protected_url("http://localhost:3000/boards").then(([status, result]) => {
 
 document.querySelector("#logout").addEventListener("click", (event) => {
   event.preventDefault();
+  localStorage.removeItem("id");
   localStorage.removeItem("token");
   window.location.replace("login.html");
 });
 
-document.querySelector("#control").addEventListener("click", (event) => {
+document.querySelector("#new-board").addEventListener("click", (event) => {
   const hash = {
     name: "new board",
     closed: "false",
