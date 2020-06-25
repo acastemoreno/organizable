@@ -18,45 +18,32 @@ get_protected_url(`http://localhost:3000/users/${id}`).then(
   }
 );
 
-<<<<<<< HEAD
-document.querySelector("#username").value = "";
-document.querySelector("#email").value = "";
-document.querySelector("#firstname").value = "";
-document.querySelector("#lastname").value = "";
-=======
-const edit = document.querySelector('.edit')
-edit.addEventListener(
-  'click',
-  (event) => {
-    event.preventDefault()
-    const hash = {
-      username: document.querySelector("#username").value,
-      email: document.querySelector("#email").value,
-      first_name: document.querySelector("#firstname").value,
-      last_name: document.querySelector("#lastname").value,
-    };
-    patch_url(`http://localhost:3000/users/${localStorage.getItem('id')}`, hash)
-    location.reload()
-  }
-)
+const edit = document.querySelector(".edit");
+edit.addEventListener("click", (event) => {
+  event.preventDefault();
+  const hash = {
+    username: document.querySelector("#username").value,
+    email: document.querySelector("#email").value,
+    first_name: document.querySelector("#firstname").value,
+    last_name: document.querySelector("#lastname").value,
+  };
+  patch_url(`http://localhost:3000/users/${localStorage.getItem("id")}`, hash);
+  location.reload();
+});
 
-const del = document.querySelector('.delete')
-del.addEventListener(
-  'click',
-  (event) => {
-    event.preventDefault()
-    del_url(`http://localhost:3000/users/${localStorage.getItem('id')}`)
-    window.location.replace("login.html");
-  }
-)
->>>>>>> b245cbd26806d08f918fa260957efa2dd96d1a76
+const del = document.querySelector(".delete");
+del.addEventListener("click", (event) => {
+  event.preventDefault();
+  del_url(`http://localhost:3000/users/${localStorage.getItem("id")}`);
+  window.location.replace("login.html");
+});
 
 const del_url = async (url) => {
   const response = await fetch(url, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Token token="${localStorage.getItem('token')}"`
+      Authorization: `Token token="${localStorage.getItem("token")}"`,
     },
   });
 };
