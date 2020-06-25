@@ -10,34 +10,46 @@ get_protected_url(`http://localhost:3000/users/${id}`).then(
     if (status == "error") {
       window.location.replace("login.html");
     } else {
-      console.log(result);
+      document.querySelector("#username").value = result.username;
+      document.querySelector("#email").value = result.email;
+      document.querySelector("#firstname").value = result.firstName;
+      document.querySelector("#lastname").value = result.lastName;
     }
   }
 );
 
-async function post(url, body) {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const data = await response.json();
-  if (!response.ok) {
-    console.log(data);
-  } else {
-    localStorage.setItem("token", data.token);
-    window.location.replace("boards.html");
+const edit = document.querySelector('.edit')
+edit.addEventListener(
+  'click',
+  (event) => {
+    event.preventDefault()
+    const hash = {
+      username: document.querySelector("#username").value,
+      email: document.querySelector("#email").value,
+      first_name: document.querySelector("#firstname").value,
+      last_name: document.querySelector("#lastname").value,
+    };
+    patch_url(`http://localhost:3000/users/${localStorage.getItem('id')}`, hash)
+    location.reload()
   }
-}
+)
 
-document.querySelector("#username").value = "";
-document.querySelector("#email").value = "";
-document.querySelector("#firstname").value = "";
-document.querySelector("#lastname").value = "";
+const del = document.querySelector('.delete')
+del.addEventListener(
+  'click',
+  (event) => {
+    event.preventDefault()
+    del_url(`http://localhost:3000/users/${localStorage.getItem('id')}`)
+    window.location.replace("login.html");
+  }
+)
 
-const hash = {
-  username: document.querySelector("#username").value,
-  email: document.querySelector("#email").value,
-  firstname: document.querySelector("#firstname").value,
-  lastnaem: document.querySelector("#lastname").value,
+const del_url = async (url) => {
+  const response = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token token="${localStorage.getItem('token')}"`
+    },
+  });
 };
