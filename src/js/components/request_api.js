@@ -58,7 +58,7 @@ const post_protected_url = async (url, body) => {
       "Content-Type": "application/json",
       Authorization: `Token token="${token}"`,
     },
-    body: JSON.authstringify(body),
+    body: JSON.stringify(body),
   });
   const data = await response.json();
   if (!response.ok) {
