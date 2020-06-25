@@ -8,6 +8,8 @@ import {
 
 import * as star_url from "../images/star.svg";
 import * as close_url from "../images/close.svg";
+import * as star_header_url from "../images/star_header.svg";
+import * as brackets_url from "../images/brackets.svg";
 
 refresh_board_content();
 
@@ -84,9 +86,21 @@ function generate_content_boards(boards) {
 }
 
 function append_group_boards(fragment, boards, title) {
+  let caption_element = document.createElement("div");
+  caption_element.classList.add("caption");
+  fragment.append(caption_element);
+
+  let image_element = document.createElement("img");
+  if (title === "Your Starred Boards") {
+    image_element.src = star_header_url.default;
+  } else {
+    image_element.src = brackets_url.default;
+  }
+  caption_element.append(image_element);
+
   let title_element = document.createElement("h2");
   title_element.textContent = title;
-  fragment.append(title_element);
+  caption_element.append(title_element);
 
   let board_group = document.createElement("div");
   board_group.classList.add("board_group");
@@ -104,14 +118,10 @@ function append_group_boards(fragment, boards, title) {
     let actions_element = document.createElement("div");
     actions_element.classList.add("actions");
     actions_element.innerHTML = `<div class="close">
-      <img ${board.closed ? `class="closed"` : ""} src="${
-      close_url.default
-    }" alt="" />
+      <img src="${close_url.default}" alt="" />
     </div>
     <div class="star">
-      <img ${board.starred ? `class="starred"` : ""} src="${
-      star_url.default
-    }" alt="" />
+      <img src="${star_url.default}" alt="" />
     </div>`;
 
     actions_element

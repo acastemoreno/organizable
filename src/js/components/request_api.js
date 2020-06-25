@@ -86,6 +86,22 @@ const patch_protected_url = async (url, body) => {
   }
 };
 
+const delete_protected_url = async (url) => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token token="${token}"`,
+    },
+  });
+  if (!response.ok) {
+    return "error";
+  } else {
+    return "ok";
+  }
+};
+
 export default get_url;
 export {
   get_url,
@@ -93,4 +109,5 @@ export {
   post_protected_url,
   get_protected_url,
   patch_protected_url,
+  delete_protected_url,
 };
