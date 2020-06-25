@@ -1,5 +1,7 @@
 import "../styles/sign_up.scss";
 
+import "@babel/polyfill";
+
 document.querySelector(".auth_form").addEventListener("submit", (event) => {
   event.preventDefault();
   const target = event.currentTarget;
@@ -25,6 +27,7 @@ async function post(url, body) {
   if (!response.ok) {
     console.log(data);
   } else {
-    console.log("holi");
+    localStorage.setItem("token", data.token);
+    window.location.replace("boards.html");
   }
 }
