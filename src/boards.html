@@ -7,18 +7,28 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;0,700;1,300&display=swap"
       rel="stylesheet"
     />
-    <title>Login</title>
+    <title>Boards</title>
   </head>
   <body>
     <header>
       <img src="images/logo.svg" alt="" />
     </header>
     <main>
-      <div class="center_column boards">
-        <nav>
+      <div class="center_column boards_page">
+        <nav class="nav_boards">
+          <a class="active" href="#">My Boards</a>
+          <a href="closed_boards.html">Closed boards</a>
+          <a href="profile.html">My Profile</a>
           <a id="logout" href="#">Log out</a>
         </nav>
-        <section></section>
+        <section class="boards">
+          <div id="content_boards"></div>
+          <div id="control" class="board_group">
+            <div class="board">
+              <p>Create a new board</p>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   </body>

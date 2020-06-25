@@ -2,11 +2,11 @@ import "../styles/boards.scss";
 import "@babel/polyfill";
 import get_protected_url from "./components/validate_auth.js";
 
-get_protected_url("http://localhost:3000/boards").then((result) => {
-  if (result[0] == "error") {
+get_protected_url("http://localhost:3000/boards").then(([status, result]) => {
+  if (status == "error") {
     window.location.replace("login.html");
   } else {
-    console.log("holi");
+    refresh_board_content(result);
   }
 });
 
@@ -15,3 +15,59 @@ document.querySelector("#logout").addEventListener("click", (event) => {
   localStorage.removeItem("token");
   window.location.replace("login.html");
 });
+
+document.querySelector("#control").addEventListener("click", (event) => {
+  const hash = {
+    name: "new board",
+    closed: "false",
+    desc: "text description",
+    color: "blue",
+    starred: "false",
+  };
+  post("http://localhost:3000/boards", hash);
+});
+
+function refresh_board_content(boards) {
+  let content_board = document.querySelector("#content_boards");
+  content_board.innerHTML = "";
+  let boards_fragment = new DocumentFragment();
+
+  boards_fragment = append_group_boards(boards_fragment, boards, "Your Boards");
+  content_board.append(boards_fragment);
+}
+
+function append_group_boards(fragment, boards, title) {
+  let title_element = document.createElement("h2");
+  title_element.textContent = title;
+  fragment.append(title_element);
+
+  let board_group = document.createElement("div");
+  board_group.classList.add("board_group");
+
+  boards.forEach((board) => {
+    const board_element = document.createElement("div");
+    board_element.classList.add("board");
+    board_element.textContent = board.name;
+    board_group.append(board_element);
+  });
+  fragment.append(board_group);
+  return fragment;
+}
+
+async function post(url, body) {
+  const token = localStorage.getItem("token");
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token token="${token}"`,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    console.log(data);
+  } else {
+    console.log(data);
+  }
+}
