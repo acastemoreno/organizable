@@ -3,7 +3,10 @@ import "@babel/polyfill";
 import {
   get_protected_url,
   post_protected_url,
+  patch_protected_url,
 } from "./components/request_api.js";
+
+import * as star_url from "../images/star.svg";
 
 refresh_board_content();
 
@@ -56,20 +59,23 @@ function generate_content_boards(boards) {
     },
     [[], []]
   );
+  if (starred_boards.length !== 0) {
+    boards_fragment = append_group_boards(
+      boards_fragment,
+      starred_boards,
+      "Your Starred Boards"
+    );
+    content_board.append(boards_fragment);
+  }
 
-  boards_fragment = append_group_boards(
-    boards_fragment,
-    starred_boards,
-    "Your Starred Boards"
-  );
-  content_board.append(boards_fragment);
-
-  boards_fragment = append_group_boards(
-    boards_fragment,
-    normal_boards,
-    "Your Boards"
-  );
-  content_board.append(boards_fragment);
+  if (normal_boards.length !== 0) {
+    boards_fragment = append_group_boards(
+      boards_fragment,
+      normal_boards,
+      "Your Boards"
+    );
+    content_board.append(boards_fragment);
+  }
 }
 
 function append_group_boards(fragment, boards, title) {
@@ -81,10 +87,40 @@ function append_group_boards(fragment, boards, title) {
   board_group.classList.add("board_group");
 
   boards.forEach((board) => {
-    const board_element = document.createElement("div");
+    let board_element = document.createElement("div");
     board_element.classList.add("board");
+    board_element.setAttribute("board_id", board.id);
     board_element.classList.add(board.color);
-    board_element.textContent = board.name;
+
+    let title = document.createElement("p");
+    title.textContent = board.name;
+    board_element.append(title);
+
+    let actions_element = document.createElement("div");
+    actions_element.classList.add("actions");
+    actions_element.innerHTML = `<div class="star">
+      <img ${board.starred ? `class="starred"` : ""} src="${
+      star_url.default
+    }" alt="" />
+    </div>`;
+    actions_element
+      .querySelector(".star")
+      .addEventListener("click", (event) => {
+        const id = event.currentTarget
+          .closest(".board")
+          .getAttribute("board_id");
+        const hash = {
+          starred: board.starred ? "false" : "true",
+        };
+        patch_protected_url(`http://localhost:3000/boards/${id}`, hash).then(
+          () => {
+            refresh_board_content();
+          }
+        );
+      });
+
+    board_element.append(actions_element);
+
     board_group.append(board_element);
   });
   fragment.append(board_group);

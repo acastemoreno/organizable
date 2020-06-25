@@ -15,21 +15,6 @@ get_protected_url(`http://localhost:3000/users/${id}`).then(
   }
 );
 
-async function post(url, body) {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const data = await response.json();
-  if (!response.ok) {
-    console.log(data);
-  } else {
-    localStorage.setItem("token", data.token);
-    window.location.replace("boards.html");
-  }
-}
-
 document.querySelector("#username").value = "";
 document.querySelector("#email").value = "";
 document.querySelector("#firstname").value = "";

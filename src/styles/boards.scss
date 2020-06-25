@@ -40,6 +40,14 @@
       border-radius: 7px;
       padding: 8px;
       color: #ffffff;
+      position: relative;
+
+      .actions {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        width: fit-content;
+      }
     }
 
     .board_group {
