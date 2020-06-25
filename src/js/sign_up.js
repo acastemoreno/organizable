@@ -16,16 +16,15 @@ document.querySelector(".auth_form").addEventListener("submit", (event) => {
 });
 
 async function post(url, body) {
-  fetch(url, {
+  const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
-  }).then((res) => {
-    console.log(res.status);
-    if (res.status === 201) {
-      return res.json();
-    }
-    console.log(res.text());
-    return;
   });
+  const data = await response.json();
+  if (!response.ok) {
+    console.log(data);
+  } else {
+    console.log("holi");
+  }
 }
