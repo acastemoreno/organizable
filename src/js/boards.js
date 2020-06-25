@@ -32,7 +32,20 @@ function refresh_board_content(boards) {
   content_board.innerHTML = "";
   let boards_fragment = new DocumentFragment();
 
-  boards_fragment = append_group_boards(boards_fragment, boards, "Your Boards");
+  const [starred_boards, normal_boards] = boards.reduce(
+    ([starred_acc, normal_acc], board) => {
+      return board.starred
+        ? [[...starred_acc, board], normal_acc]
+        : [starred_acc, [...normal_acc, board]];
+    },
+    [[], []]
+  );
+
+  boards_fragment = append_group_boards(
+    boards_fragment,
+    normal_boards,
+    "Your Boards"
+  );
   content_board.append(boards_fragment);
 }
 
@@ -47,6 +60,7 @@ function append_group_boards(fragment, boards, title) {
   boards.forEach((board) => {
     const board_element = document.createElement("div");
     board_element.classList.add("board");
+    board_element.classList.add(board.color);
     board_element.textContent = board.name;
     board_group.append(board_element);
   });
