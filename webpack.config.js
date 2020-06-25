@@ -4,8 +4,6 @@ const glob = require("glob");
 const path = require("path");
 const fs = require("fs");
 
-let pages = ["index", "holi"];
-
 function toObject(paths) {
   var ret = {};
 
