@@ -1,6 +1,7 @@
 import "../styles/sign_up.scss";
 
 import "@babel/polyfill";
+import { post_url } from "./components/request_api.js";
 
 document.querySelector(".auth_form").addEventListener("submit", (event) => {
   event.preventDefault();
@@ -14,21 +15,13 @@ document.querySelector(".auth_form").addEventListener("submit", (event) => {
       last_name: target.querySelector("#lastname").value,
     },
   };
-  post("http://localhost:3000/users", hash);
-});
-
-async function post(url, body) {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+  post_url("http://localhost:3000/users", hash).then(([status, data]) => {
+    if (status == "error") {
+      console.log(data);
+    } else {
+      localStorage.setItem("id", data.id);
+      localStorage.setItem("token", data.token);
+      window.location.replace("boards.html");
+    }
   });
-  const data = await response.json();
-  if (!response.ok) {
-    console.log(data);
-  } else {
-    localStorage.setItem("id", data.id);
-    localStorage.setItem("token", data.token);
-    window.location.replace("boards.html");
-  }
-}
+});
