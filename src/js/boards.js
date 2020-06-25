@@ -78,21 +78,3 @@ function append_group_boards(fragment, boards, title) {
   fragment.append(board_group);
   return fragment;
 }
-
-async function post(url, body) {
-  const token = localStorage.getItem("token");
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Token token="${token}"`,
-    },
-    body: JSON.stringify(body),
-  });
-  const data = await response.json();
-  if (!response.ok) {
-    console.log(data);
-  } else {
-    console.log(data);
-  }
-}

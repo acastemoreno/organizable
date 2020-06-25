@@ -36,5 +36,5 @@ const post_protected_url = async (url, body) => {
     return ["ok", data];
   }
 };
-
+export default get_protected_url;
 export { post_protected_url, get_protected_url };
