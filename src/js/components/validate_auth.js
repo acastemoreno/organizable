@@ -37,4 +37,4 @@ const post_protected_url = async (url, body) => {
   }
 };
 
-export { get_protected_url, post_protected_url };
+export { post_protected_url, get_protected_url };
