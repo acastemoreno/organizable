@@ -46,6 +46,7 @@ module.exports = (env, options) => {
       path: path.resolve(__dirname, "dist"),
     },
     mode: options.mode,
+    devtool: options.mode !== "production" ? "source-map" : undefined,
     module: {
       rules: [
         {
