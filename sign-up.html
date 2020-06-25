@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/assets/styles/style.css" />
+    <link
+      rel="shortcut icon"
+      href="assets/images/curly_braces.svg"
+      type="image/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign up</title>
+  </head>
+  <body>
+    <main class="form-container">
+      <div class="form">
+        <div class="form-field">
+          <label for="username">Username</label>
+          <input required type="text" name="username" id="username" />
+        </div>
+        <div class="form-field">
+          <label for="password">Password</label>
+          <input required type="password" name="password" id="password" />
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input required type="email" name="email" id="email" />
+        </div>
+        <div class="form-field">
+          <label for="first-name">First name</label>
+          <input required type="text" name="first-name" id="first-name" />
+        </div>
+        <div class="form-field">
+          <label for="last-name">Last name</label>
+          <input required type="text" name="last-name" id="last-name" />
+        </div>
+        <div class="actions">
+          <button class="create" id="create-btn">Create!</button>
+          <a href="./sign-in.html" class="shared-links"
+            >or login with existing user</a
+          >
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/assets/js/main.js"></script>
+  </body>
+</html>
