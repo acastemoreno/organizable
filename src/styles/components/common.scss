@@ -13,6 +13,8 @@ body {
 body {
   display: grid;
   grid-template-rows: min-content 1fr;
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
 }
 
 main {
@@ -20,3 +22,76 @@ main {
 }
 
 @import "header.scss";
+
+.center_column {
+  max-width: 900px;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.box-auth {
+  margin-top: 82px;
+  background: #f4f5f7;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  max-width: 412px;
+  margin-left: auto;
+  margin-right: auto;
+
+  form.auth_form {
+    padding-bottom: 50px;
+    padding-top: 50px;
+    max-width: 224px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 24px;
+
+      color: #172b4d;
+    }
+
+    input {
+      margin-top: 6px;
+      margin-bottom: 6px;
+      background: #ffffff;
+      border: 1px solid #0079bf;
+      border-radius: 3px;
+      height: 32px;
+      width: 100%;
+    }
+
+    .submit {
+      width: fit-content;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+
+      text-align: center;
+
+      color: #ffffff;
+      background: #5aac44;
+      border-radius: 3px;
+      border: none;
+      padding: 6px 15px 6px 15px;
+      margin-top: 23px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    a {
+      margin-top: 17px;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      color: #0079bf;
+      text-decoration: none;
+      text-align: center;
+    }
+  }
+}
