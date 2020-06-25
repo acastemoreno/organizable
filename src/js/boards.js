@@ -5,14 +5,6 @@ import {
   post_protected_url,
 } from "./components/request_api.js";
 
-get_protected_url("http://localhost:3000/boards").then(([status, result]) => {
-  if (status == "error") {
-    window.location.replace("login.html");
-  } else {
-    refresh_board_content(result);
-  }
-});
-
 refresh_board_content();
 
 document.querySelector("#logout").addEventListener("click", (event) => {
@@ -46,34 +38,38 @@ function refresh_board_content() {
     if (status == "error") {
       window.location.replace("login.html");
     } else {
-      let content_board = document.querySelector("#content_boards");
-      content_board.innerHTML = "";
-      let boards_fragment = new DocumentFragment();
-
-      const [starred_boards, normal_boards] = boards.reduce(
-        ([starred_acc, normal_acc], board) => {
-          return board.starred
-            ? [[...starred_acc, board], normal_acc]
-            : [starred_acc, [...normal_acc, board]];
-        },
-        [[], []]
-      );
-
-      boards_fragment = append_group_boards(
-        boards_fragment,
-        starred_boards,
-        "Your Starred Boards"
-      );
-      content_board.append(boards_fragment);
-
-      boards_fragment = append_group_boards(
-        boards_fragment,
-        normal_boards,
-        "Your Boards"
-      );
-      content_board.append(boards_fragment);
+      generate_content_boards(boards);
     }
   });
+}
+
+function generate_content_boards(boards) {
+  let content_board = document.querySelector("#content_boards");
+  content_board.innerHTML = "";
+  let boards_fragment = new DocumentFragment();
+
+  const [starred_boards, normal_boards] = boards.reduce(
+    ([starred_acc, normal_acc], board) => {
+      return board.starred
+        ? [[...starred_acc, board], normal_acc]
+        : [starred_acc, [...normal_acc, board]];
+    },
+    [[], []]
+  );
+
+  boards_fragment = append_group_boards(
+    boards_fragment,
+    starred_boards,
+    "Your Starred Boards"
+  );
+  content_board.append(boards_fragment);
+
+  boards_fragment = append_group_boards(
+    boards_fragment,
+    normal_boards,
+    "Your Boards"
+  );
+  content_board.append(boards_fragment);
 }
 
 function append_group_boards(fragment, boards, title) {
