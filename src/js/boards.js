@@ -94,12 +94,13 @@ for (const button of buttons) {
 document.querySelector("#new-board").addEventListener("click", (event) => {
   const title = document.querySelector('#board-title').value
   const hash = {
-    name: document.querySelector('#board-title').value.toString(),
+    name: document.querySelector('#board-title').value,
     closed: "false",
     desc: "text description",
     color: palette.pickedColor,
     starred: "false",
   };
+  document.querySelector('#board-title').value = ""
   post_protected_url("http://localhost:3000/boards", hash).then(
     ([status, result]) => {
       if (status == "error") {
