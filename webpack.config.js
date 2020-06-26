@@ -88,5 +88,11 @@ module.exports = (env, options) => {
         filename: "./styles/[name].css",
       }),
     ].concat(htmlPlugins),
+    devServer: {
+      port: 8080,
+      historyApiFallback: {
+        rewrites: [{ from: /./, to: "/boards.html" }],
+      },
+    },
   };
 };

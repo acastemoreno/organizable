@@ -13,6 +13,19 @@ import * as close_header_url from "../images/close_header.svg";
 
 refresh_closed_board_content();
 
+document.querySelector("#logout").addEventListener("click", (event) => {
+  event.preventDefault();
+  delete_protected_url("http://localhost:3000/logout").then((status) => {
+    if (status == "error") {
+      console.log(data);
+    } else {
+      localStorage.removeItem("id");
+      localStorage.removeItem("token");
+      window.location.replace("login.html");
+    }
+  });
+});
+
 function refresh_closed_board_content() {
   get_protected_url("http://localhost:3000/boards").then(([status, boards]) => {
     if (status == "error") {

@@ -5,6 +5,19 @@ import { get_protected_url } from "./components/request_api.js";
 
 const id = localStorage.getItem("id");
 
+document.querySelector("#logout").addEventListener("click", (event) => {
+  event.preventDefault();
+  delete_protected_url("http://localhost:3000/logout").then((status) => {
+    if (status == "error") {
+      console.log(data);
+    } else {
+      localStorage.removeItem("id");
+      localStorage.removeItem("token");
+      window.location.replace("login.html");
+    }
+  });
+});
+
 get_protected_url(`http://localhost:3000/users/${id}`).then(
   ([status, result]) => {
     if (status == "error") {

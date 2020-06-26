@@ -4,10 +4,11 @@ import {
   get_protected_url,
   post_protected_url,
   patch_protected_url,
+  delete_protected_url,
 } from "./components/request_api.js";
 import MicroModal from "micromodal";
 
-MicroModal.init()
+MicroModal.init();
 
 import * as star_url from "../images/star.svg";
 import * as close_url from "../images/close.svg";
@@ -18,11 +19,16 @@ refresh_board_content();
 
 document.querySelector("#logout").addEventListener("click", (event) => {
   event.preventDefault();
-  localStorage.removeItem("id");
-  localStorage.removeItem("token");
-  window.location.replace("login.html");
+  delete_protected_url("http://localhost:3000/logout").then((status) => {
+    if (status == "error") {
+      console.log(data);
+    } else {
+      localStorage.removeItem("id");
+      localStorage.removeItem("token");
+      window.location.replace("login.html");
+    }
+  });
 });
-
 
 function refresh_board_content() {
   get_protected_url("http://localhost:3000/boards").then(([status, boards]) => {
@@ -95,8 +101,8 @@ function append_group_boards(fragment, boards, title) {
     board_element.classList.add("board");
     board_element.setAttribute("board_id", board.id);
     board_element.classList.add(board.color);
-    board_element.style.backgroundColor = board.color
-    board_element.style.color = "lightgray"
+    board_element.style.backgroundColor = board.color;
+    board_element.style.color = "lightgray";
 
     let title = document.createElement("p");
     title.textContent = board.name;
@@ -151,29 +157,29 @@ function append_group_boards(fragment, boards, title) {
   return fragment;
 }
 
-const palette = document.getElementsByClassName('color-palette')
-palette.pickedColor = "white"
+const palette = document.getElementsByClassName("color-palette");
+palette.pickedColor = "white";
 
-const buttons = document.getElementsByClassName('color-palette-button')
+const buttons = document.getElementsByClassName("color-palette-button");
 
 for (const button of buttons) {
-  const color = (button.style.backgroundColor)
+  const color = button.style.backgroundColor;
   button.onclick = (event) => {
-    document.querySelector('.modal__container').style.backgroundColor = color;
-    palette.pickedColor = event.target.classList[1]
-  } 
+    document.querySelector(".modal__container").style.backgroundColor = color;
+    palette.pickedColor = event.target.classList[1];
+  };
 }
 
 document.querySelector("#new-board").addEventListener("click", (event) => {
-  const title = document.querySelector('#board-title').value
+  const title = document.querySelector("#board-title").value;
   const hash = {
-    name: document.querySelector('#board-title').value,
+    name: document.querySelector("#board-title").value,
     closed: "false",
     desc: "text description",
     color: palette.pickedColor,
     starred: "false",
   };
-  document.querySelector('#board-title').value = ""
+  document.querySelector("#board-title").value = "";
   post_protected_url("http://localhost:3000/boards", hash).then(
     ([status, result]) => {
       if (status == "error") {
