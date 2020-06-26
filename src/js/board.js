@@ -27,7 +27,6 @@ function refresh_board_content() {
         main_element = render_board_list(main_element, board);
 
         main_fragment.append(main_element);
-        console.log(board);
         document.querySelector("main").replaceWith(main_fragment);
       }
     }
@@ -105,10 +104,30 @@ function render_all_card(list_body_element, list) {
     let card_element = document.createElement("div");
     card_element.className = "card";
 
+    card_element = render_labels_for_card(card_element, card);
+
     list_body_element.append(card_element);
   });
 
   return list_body_element;
+}
+
+function render_labels_for_card(card_element, card) {
+  if (card.labels.length !== 0) {
+    let labels_element = document.createElement("div");
+    labels_element.className = "labels";
+
+    card.labels.forEach((label) => {
+      let label_element = document.createElement("div");
+      label_element.className = `label ${label.color}`;
+
+      labels_element.append(label_element);
+    });
+
+    card_element.append(labels_element);
+  }
+
+  return card_element;
 }
 
 function render_create_card_option(list_body_element, list) {
