@@ -82,6 +82,7 @@ main {
             display: grid;
             grid-template-columns: repeat(auto-fill, 40px);
             gap: 4px;
+            margin-bottom: 8px;
 
             .label {
               width: 40px;

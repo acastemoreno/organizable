@@ -10,6 +10,7 @@ import {
 import * as plus_white_url from "../images/plus_white.svg";
 import * as close_header_url from "../images/close_header.svg";
 import * as plus_gray_url from "../images/plus_gray.svg";
+import * as check_url from "../images/check.svg";
 
 refresh_board_content();
 
@@ -105,6 +106,8 @@ function render_all_card(list_body_element, list) {
     card_element.className = "card";
 
     card_element = render_labels_for_card(card_element, card);
+    card_element = render_title_for_card(card_element, card);
+    card_element = render_check_list_for_card(card_element, card);
 
     list_body_element.append(card_element);
   });
@@ -127,6 +130,30 @@ function render_labels_for_card(card_element, card) {
     card_element.append(labels_element);
   }
 
+  return card_element;
+}
+
+function render_title_for_card(card_element, card) {
+  let title_element = document.createElement("div");
+  title_element.className = "card_title";
+
+  title_element.innerHTML = `<p>${card.name}</p>`;
+
+  card_element.append(title_element);
+  return card_element;
+}
+
+function render_check_list_for_card(card_element, card) {
+  console.log(card);
+  if (card.checkItems !== 0) {
+    let check_list_element = document.createElement("div");
+    check_list_element.className = "check_list";
+
+    check_list_element.innerHTML = `<img src="${check_url.default}" />
+    <p>${card.completedCheckItems}/${card.checkItems}</p>`;
+
+    card_element.append(check_list_element);
+  }
   return card_element;
 }
 
