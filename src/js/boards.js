@@ -4,6 +4,9 @@ import {
   get_protected_url,
   post_protected_url,
 } from "./components/request_api.js";
+import MicroModal from "micromodal";
+
+MicroModal.init()
 
 refresh_board_content();
 
@@ -14,24 +17,6 @@ document.querySelector("#logout").addEventListener("click", (event) => {
   window.location.replace("login.html");
 });
 
-document.querySelector("#new-board").addEventListener("click", (event) => {
-  const hash = {
-    name: "new board",
-    closed: "false",
-    desc: "text description",
-    color: "blue",
-    starred: "false",
-  };
-  post_protected_url("http://localhost:3000/boards", hash).then(
-    ([status, result]) => {
-      if (status == "error") {
-        window.location.replace("login.html");
-      } else {
-        refresh_board_content();
-      }
-    }
-  );
-});
 
 function refresh_board_content() {
   get_protected_url("http://localhost:3000/boards").then(([status, boards]) => {
@@ -84,9 +69,44 @@ function append_group_boards(fragment, boards, title) {
     const board_element = document.createElement("div");
     board_element.classList.add("board");
     board_element.classList.add(board.color);
+    board_element.style.backgroundColor = board.color
+    board_element.style.color = "lightgray"
     board_element.textContent = board.name;
     board_group.append(board_element);
   });
   fragment.append(board_group);
   return fragment;
 }
+
+const palette = document.getElementsByClassName('color-palette')
+palette.pickedColor = "white"
+
+const buttons = document.getElementsByClassName('color-palette-button')
+
+for (const button of buttons) {
+  const color = (button.style.backgroundColor)
+  button.onclick = (event) => {
+    document.querySelector('.modal__container').style.backgroundColor = color;
+    palette.pickedColor = event.target.classList[1]
+  } 
+}
+
+document.querySelector("#new-board").addEventListener("click", (event) => {
+  const title = document.querySelector('#board-title').value
+  const hash = {
+    name: document.querySelector('#board-title').value.toString(),
+    closed: "false",
+    desc: "text description",
+    color: palette.pickedColor,
+    starred: "false",
+  };
+  post_protected_url("http://localhost:3000/boards", hash).then(
+    ([status, result]) => {
+      if (status == "error") {
+        window.location.replace("login.html");
+      } else {
+        refresh_board_content();
+      }
+    }
+  );
+});

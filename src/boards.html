@@ -24,12 +24,44 @@
         <section class="boards">
           <div id="content_boards"></div>
           <div id="control" class="board_group">
-            <div class="board" id="new-board">
+            <div class="board" data-micromodal-trigger="modal-1">
               <p>Create a new board</p>
             </div>
           </div>
         </section>
       </div>
     </main>
+    <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+          <section class="modal__header">
+            <input type="text" name="board-title" id="board-title" placeholder="Board title">
+            <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+          </section>
+          <section class="modal__content" id="modal-1-content">
+            <section id = "color-palette">
+              <div>
+                <div class="color-palette-button green" style="background-color: green; border: 1px solid #999B9E"></div>
+                <div class="color-palette-button yellow" style="background-color: yellow"></div>
+                <div class="color-palette-button orange" style="background-color: orange"></div>
+              </div>
+              <div>
+                <div class="color-palette-button red" style="background-color: red"></div>
+                <div class="color-palette-button purple" style="background-color: purple"></div>
+                <div class="color-palette-button blue" style="background-color: blue"></div>
+              </div>
+              <div>
+                <div class="color-palette-button sky" style="background-color: skyblue"></div>
+                <div class="color-palette-button lime" style="background-color: lime"></div>
+                <div class="color-palette-button gray" style="background-color: gray"></div>
+              </div>
+            </section>
+          </section>
+          <footer class="modal__footer">
+            <button id="new-board" data-micromodal-close class="modal__btn modal__btn-primary">Create table</button>
+          </footer>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
