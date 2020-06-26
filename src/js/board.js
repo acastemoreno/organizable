@@ -217,6 +217,7 @@ function create_list_callback(event) {
 }
 
 function return_create_list_callback(event) {
+  event.preventDefault();
   let fragment = new DocumentFragment();
 
   fragment = render_add_list_option(fragment);
