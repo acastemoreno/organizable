@@ -11,6 +11,7 @@ import * as plus_white_url from "../images/plus_white.svg";
 import * as close_header_url from "../images/close_header.svg";
 import * as plus_gray_url from "../images/plus_gray.svg";
 import * as check_url from "../images/check.svg";
+import * as cancel_url from "../images/cancel.svg";
 
 refresh_board_content();
 
@@ -144,7 +145,6 @@ function render_title_for_card(card_element, card) {
 }
 
 function render_check_list_for_card(card_element, card) {
-  console.log(card);
   if (card.checkItems !== 0) {
     let check_list_element = document.createElement("div");
     check_list_element.className = "check_list";
@@ -171,8 +171,55 @@ function render_create_card_option(list_body_element, list) {
 function render_add_list_option(board_lists_element) {
   let create_add_list_element = document.createElement("div");
   create_add_list_element.className = "list add-a-list-button";
+
   create_add_list_element.innerHTML = `<img src="${plus_white_url.default}" alt="" />
   <p>Add a list</p>`;
+
+  create_add_list_element.addEventListener("click", create_list_callback);
+
   board_lists_element.append(create_add_list_element);
   return board_lists_element;
+}
+
+function render_create_list(board_lists_element) {
+  let create_list_element = document.createElement("div");
+  create_list_element.className = "list";
+
+  create_list_element.innerHTML = `<form class="create_list">
+    <input
+      type="text"
+      name="title"
+      id="title"
+      placeholder="Enter list title..."
+    />
+    <div class="control">
+      <button class="submit" type="submit">Add List</button>
+      <a href="#">
+        <img src="${cancel_url.default}" alt="" />
+      </a>
+    </div>
+  </form>`;
+
+  create_list_element
+    .querySelector("a")
+    .addEventListener("click", return_create_list_callback);
+
+  board_lists_element.append(create_list_element);
+  return board_lists_element;
+}
+
+function create_list_callback(event) {
+  let fragment = new DocumentFragment();
+
+  fragment = render_create_list(fragment);
+
+  this.replaceWith(fragment);
+}
+
+function return_create_list_callback(event) {
+  let fragment = new DocumentFragment();
+
+  fragment = render_add_list_option(fragment);
+
+  event.target.closest(".list").replaceWith(fragment);
 }
