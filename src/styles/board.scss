@@ -23,11 +23,13 @@ main {
     align-items: start;
     column-gap: 8px;
     grid-template-columns: repeat(auto-fill, 272px);
+    grid-auto-flow: column;
 
     .list {
       background: #ebecf0;
       border-radius: 3px;
       padding: 8px 10px;
+      width: 272px;
 
       form#create_list {
         input {
