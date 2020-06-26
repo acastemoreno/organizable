@@ -103,6 +103,11 @@ function append_group_boards(fragment, boards, title) {
     board_element.classList.add(board.color);
     board_element.style.backgroundColor = board.color;
     board_element.style.color = "lightgray";
+    board_element.addEventListener("click", (event) => {
+      if (event.target === board_element) {
+        window.location.replace(`board.html?board_id=${board.id}`);
+      }
+    });
 
     let title = document.createElement("p");
     title.textContent = board.name;
