@@ -132,9 +132,50 @@ main {
             color: #5e6c84;
           }
         }
+
+        .create_form_options {
+          form.create_card_form {
+            input {
+              background: #ffffff;
+              border: 1px solid #0079bf;
+              box-sizing: border-box;
+              border-radius: 3px;
+              font-weight: normal;
+              font-size: 12px;
+              line-height: 20px;
+              height: 24px;
+              width: 224px;
+              padding-left: 8px;
+            }
+
+            .control {
+              margin-top: 8px;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+
+              button.submit {
+                margin-right: 8px;
+                padding: 6px 12px;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+
+                color: #ffffff;
+                background: #5aac44;
+                border: none;
+                border-radius: 3px;
+              }
+
+              a {
+                height: 16px;
+              }
+            }
+          }
+        }
       }
 
-      form#create_list {
+      form.create_list {
         input {
           background: #ffffff;
           border: 1px solid #0079bf;
