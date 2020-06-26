@@ -7,6 +7,10 @@ import {
   //delete_protected_url,
 } from "./components/request_api.js";
 
+import * as plus_white_url from "../images/plus_white.svg";
+
+import * as close_header_url from "../images/close_header.svg";
+
 refresh_board_content();
 
 function refresh_board_content() {
@@ -17,9 +21,14 @@ function refresh_board_content() {
       if (status == "error") {
         window.location.replace("login.html");
       } else {
-        set_color_main(board.color);
-        // refresh_lists_from_board(board);
+        let main_fragment = new DocumentFragment();
+        let main_element = create_main(board);
+        main_element = render_info(main_element, board);
+        main_element = render_board_list(main_element, board);
+
+        main_fragment.append(main_element);
         console.log(board);
+        document.querySelector("main").replaceWith(main_fragment);
       }
     }
   );
@@ -30,14 +39,60 @@ function capture_board_id() {
   return re.exec(window.location.href)[1];
 }
 
-function set_color_main(color) {
-  document.querySelector("main").classList.add(color);
+function create_main(board) {
+  const main_element = document.createElement("main");
+  main_element.classList.add(board.color);
+  return main_element;
 }
 
-// function refresh_lists_from_board(board) {
-//   if (board.lists.length === 0) {
+function render_info(main_element, board) {
+  const header_element = document.createElement("div");
+  header_element.classList.add("board_info");
+  header_element.innerHTML = `<h1>${board.name}</h1>`;
+  main_element.append(header_element);
+  return main_element;
+}
 
-//   } else {
+function render_board_list(main_element, board) {
+  let board_lists_element = document.createElement("div");
+  board_lists_element.classList.add("board_lists");
+  board_lists_element = render_all_lists(board_lists_element, board.lists);
+  board_lists_element = render_create_list_option(board_lists_element);
+  main_element.append(board_lists_element);
+  return main_element;
+}
 
-//   }
-// }
+function render_create_list_option(board_lists_element) {
+  let create_list_element = document.createElement("div");
+  create_list_element.className = "list add-a-list-button";
+  create_list_element.innerHTML = `<img src="${plus_white_url.default}" alt="" />
+  <p>Add a list</p>`;
+  board_lists_element.append(create_list_element);
+  return board_lists_element;
+}
+
+function render_all_lists(board_lists_element, lists) {
+  lists.forEach((list) => {
+    let list_element = document.createElement("div");
+    list_element.className = "list";
+    list_element = create_head_list(list_element, list);
+
+    board_lists_element.append(list_element);
+  });
+  return board_lists_element;
+}
+
+function create_head_list(list_element, list) {
+  let list_head_element = document.createElement("div");
+  list_head_element.className = "list_head";
+
+  list_head_element.innerHTML = `<p class="list_name">
+    ${list.name}
+  </p>
+  <div class="close">
+    <img src="${close_header_url.default}" alt="" />
+  </div>`;
+
+  list_element.append(list_head_element);
+  return list_element;
+}

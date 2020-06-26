@@ -38,6 +38,10 @@ main {
         column-gap: 8px;
         align-items: center;
 
+        .list_name {
+          overflow: hidden;
+        }
+
         form.edit_title {
           width: 100%;
 
@@ -215,8 +219,9 @@ main {
       }
     }
 
-    #add-a-list-button {
+    .add-a-list-button {
       display: flex;
+      cursor: pointer;
 
       flex-direction: row;
       background: rgba(255, 255, 255, 0.24);
