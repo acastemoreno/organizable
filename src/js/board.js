@@ -8,8 +8,8 @@ import {
 } from "./components/request_api.js";
 
 import * as plus_white_url from "../images/plus_white.svg";
-
 import * as close_header_url from "../images/close_header.svg";
+import * as plus_gray_url from "../images/plus_gray.svg";
 
 refresh_board_content();
 
@@ -57,18 +57,9 @@ function render_board_list(main_element, board) {
   let board_lists_element = document.createElement("div");
   board_lists_element.classList.add("board_lists");
   board_lists_element = render_all_lists(board_lists_element, board.lists);
-  board_lists_element = render_create_list_option(board_lists_element);
+  board_lists_element = render_add_list_option(board_lists_element);
   main_element.append(board_lists_element);
   return main_element;
-}
-
-function render_create_list_option(board_lists_element) {
-  let create_list_element = document.createElement("div");
-  create_list_element.className = "list add-a-list-button";
-  create_list_element.innerHTML = `<img src="${plus_white_url.default}" alt="" />
-  <p>Add a list</p>`;
-  board_lists_element.append(create_list_element);
-  return board_lists_element;
 }
 
 function render_all_lists(board_lists_element, lists) {
@@ -76,6 +67,7 @@ function render_all_lists(board_lists_element, lists) {
     let list_element = document.createElement("div");
     list_element.className = "list";
     list_element = create_head_list(list_element, list);
+    list_element = create_body_list(list_element, list);
 
     board_lists_element.append(list_element);
   });
@@ -95,4 +87,46 @@ function create_head_list(list_element, list) {
 
   list_element.append(list_head_element);
   return list_element;
+}
+
+function create_body_list(list_element, list) {
+  let list_body_element = document.createElement("div");
+  list_body_element.className = "list_body";
+
+  list_body_element = render_all_card(list_body_element, list);
+  list_body_element = render_create_card_option(list_body_element, list);
+
+  list_element.append(list_body_element);
+  return list_element;
+}
+
+function render_all_card(list_body_element, list) {
+  list.cards.forEach((card) => {
+    let card_element = document.createElement("div");
+    card_element.className = "card";
+
+    list_body_element.append(card_element);
+  });
+
+  return list_body_element;
+}
+
+function render_create_card_option(list_body_element, list) {
+  let create_card_option_element = document.createElement("div");
+  create_card_option_element.className = "create_card";
+
+  create_card_option_element.innerHTML = `<img src="${plus_gray_url.default}" alt="" />
+  <p>Add another card</p>`;
+
+  list_body_element.append(create_card_option_element);
+  return list_body_element;
+}
+
+function render_add_list_option(board_lists_element) {
+  let create_add_list_element = document.createElement("div");
+  create_add_list_element.className = "list add-a-list-button";
+  create_add_list_element.innerHTML = `<img src="${plus_white_url.default}" alt="" />
+  <p>Add a list</p>`;
+  board_lists_element.append(create_add_list_element);
+  return board_lists_element;
 }
