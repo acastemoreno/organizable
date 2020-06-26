@@ -3,10 +3,16 @@ import "@babel/polyfill";
 import {
   get_protected_url,
   post_protected_url,
+  patch_protected_url,
 } from "./components/request_api.js";
 import MicroModal from "micromodal";
 
 MicroModal.init()
+
+import * as star_url from "../images/star.svg";
+import * as close_url from "../images/close.svg";
+import * as star_header_url from "../images/star_header.svg";
+import * as brackets_url from "../images/brackets.svg";
 
 refresh_board_content();
 
@@ -23,7 +29,11 @@ function refresh_board_content() {
     if (status == "error") {
       window.location.replace("login.html");
     } else {
-      generate_content_boards(boards);
+      generate_content_boards(
+        boards.filter((board) => {
+          return !board.closed;
+        })
+      );
     }
   });
 }
@@ -41,37 +51,100 @@ function generate_content_boards(boards) {
     },
     [[], []]
   );
+  if (starred_boards.length !== 0) {
+    boards_fragment = append_group_boards(
+      boards_fragment,
+      starred_boards,
+      "Your Starred Boards"
+    );
+    content_board.append(boards_fragment);
+  }
 
-  boards_fragment = append_group_boards(
-    boards_fragment,
-    starred_boards,
-    "Your Starred Boards"
-  );
-  content_board.append(boards_fragment);
-
-  boards_fragment = append_group_boards(
-    boards_fragment,
-    normal_boards,
-    "Your Boards"
-  );
-  content_board.append(boards_fragment);
+  if (normal_boards.length !== 0) {
+    boards_fragment = append_group_boards(
+      boards_fragment,
+      normal_boards,
+      "Your Boards"
+    );
+    content_board.append(boards_fragment);
+  }
 }
 
 function append_group_boards(fragment, boards, title) {
+  let caption_element = document.createElement("div");
+  caption_element.classList.add("caption");
+  fragment.append(caption_element);
+
+  let image_element = document.createElement("img");
+  if (title === "Your Starred Boards") {
+    image_element.src = star_header_url.default;
+  } else {
+    image_element.src = brackets_url.default;
+  }
+  caption_element.append(image_element);
+
   let title_element = document.createElement("h2");
   title_element.textContent = title;
-  fragment.append(title_element);
+  caption_element.append(title_element);
 
   let board_group = document.createElement("div");
   board_group.classList.add("board_group");
 
   boards.forEach((board) => {
-    const board_element = document.createElement("div");
+    let board_element = document.createElement("div");
     board_element.classList.add("board");
+    board_element.setAttribute("board_id", board.id);
     board_element.classList.add(board.color);
     board_element.style.backgroundColor = board.color
     board_element.style.color = "lightgray"
-    board_element.textContent = board.name;
+
+    let title = document.createElement("p");
+    title.textContent = board.name;
+    board_element.append(title);
+
+    let actions_element = document.createElement("div");
+    actions_element.classList.add("actions");
+    actions_element.innerHTML = `<div class="close">
+      <img src="${close_url.default}" alt="" />
+    </div>
+    <div class="star">
+      <img src="${star_url.default}" alt="" />
+    </div>`;
+
+    actions_element
+      .querySelector(".star")
+      .addEventListener("click", (event) => {
+        const id = event.currentTarget
+          .closest(".board")
+          .getAttribute("board_id");
+        const hash = {
+          starred: board.starred ? "false" : "true",
+        };
+        patch_protected_url(`http://localhost:3000/boards/${id}`, hash).then(
+          () => {
+            refresh_board_content();
+          }
+        );
+      });
+
+    actions_element
+      .querySelector(".close")
+      .addEventListener("click", (event) => {
+        const id = event.currentTarget
+          .closest(".board")
+          .getAttribute("board_id");
+        const hash = {
+          closed: "true",
+        };
+        patch_protected_url(`http://localhost:3000/boards/${id}`, hash).then(
+          () => {
+            refresh_board_content();
+          }
+        );
+      });
+
+    board_element.append(actions_element);
+
     board_group.append(board_element);
   });
   fragment.append(board_group);
