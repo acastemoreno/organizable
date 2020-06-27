@@ -73,6 +73,8 @@ function render_all_lists(board_lists_element, lists) {
 function render_add_list(board_lists_element, list) {
   let list_element = document.createElement("div");
   list_element.className = "list";
+  list_element.setAttribute("list_id", list.listId || list.id);
+
   list_element = create_head_list(list_element, list);
   list_element = create_body_list(list_element, list);
 
@@ -91,6 +93,10 @@ function create_head_list(list_element, list) {
     <img src="${close_header_url.default}" alt="" />
   </div>`;
 
+  list_head_element
+    .querySelector("p")
+    .addEventListener("click", modify_title_of_list_callback);
+
   list_element.append(list_head_element);
   return list_element;
 }
@@ -100,7 +106,7 @@ function create_body_list(list_element, list) {
   list_body_element.className = "list_body";
 
   list_body_element = render_all_card(list_body_element, list);
-  list_body_element = render_create_card_option(list_body_element, list);
+  list_body_element = render_create_card_option(list_body_element);
 
   list_element.append(list_body_element);
   return list_element;
@@ -162,7 +168,7 @@ function render_check_list_for_card(card_element, card) {
   return card_element;
 }
 
-function render_create_card_option(list_body_element, list) {
+function render_create_card_option(list_body_element) {
   let create_card_option_element = document.createElement("div");
   create_card_option_element.className = "create_card";
 
@@ -217,6 +223,15 @@ function render_add_list_option(board_lists_element) {
   return board_lists_element;
 }
 
+function render_form_for_edit_title_list(parent_element, current_title) {
+  let form_for_edit_title_element = document.createElement("form");
+  form_for_edit_title_element.className = "edit_title";
+  form_for_edit_title_element.innerHTML = `<input type="text" name="title" id="title" value="${current_title}" />`;
+
+  parent_element.append(form_for_edit_title_element);
+  return parent_element;
+}
+
 function create_list_callback(event) {
   let fragment = new DocumentFragment();
 
@@ -254,4 +269,12 @@ function create_list_api_callback(event) {
       }
     });
   }
+}
+
+function modify_title_of_list_callback(event) {
+  const current_title = event.currentTarget.innerText;
+  let fragment = new DocumentFragment();
+  fragment = render_form_for_edit_title_list(fragment, current_title);
+
+  event.currentTarget.replaceWith(fragment);
 }
