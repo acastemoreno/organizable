@@ -192,6 +192,11 @@ function render_create_card_option(list_body_element) {
   create_card_option_element.innerHTML = `<img src="${plus_gray_url.default}" alt="" />
   <p>Add another card</p>`;
 
+  create_card_option_element.addEventListener(
+    "click",
+    render_form_to_create_card_callback
+  );
+
   list_body_element.append(create_card_option_element);
   return list_body_element;
 }
@@ -256,6 +261,32 @@ function render_form_for_edit_title_list(parent_element, current_title) {
 
   parent_element.append(form_for_edit_title_element);
   return parent_element;
+}
+
+function render_form_option_to_create_card(fragment) {
+  let form_container_element = document.createElement("div");
+  form_container_element.className = "create_form_options";
+  form_container_element.innerHTML = `<form class="create_card_form">
+    <input
+      type="text"
+      name=""
+      id=""
+      placeholder="Enter a title for this card..."
+    />
+    <div class="control">
+      <button class="submit" type="submit">Add Card</button>
+      <a href="#">
+        <img src="${cancel_url.default}" alt="" />
+      </a>
+    </div>
+  </form>`;
+
+  form_container_element
+    .querySelector("a")
+    .addEventListener("click", reset_render_form_to_create_card_callback);
+
+  fragment.append(form_container_element);
+  return fragment;
 }
 
 function create_list_callback(event) {
@@ -363,4 +394,22 @@ function delete_list_api_callback(event) {
       target.remove();
     }
   });
+}
+
+function render_form_to_create_card_callback(event) {
+  const target = event.currentTarget;
+  let fragment = new DocumentFragment();
+
+  fragment = render_form_option_to_create_card(fragment);
+
+  target.replaceWith(fragment);
+}
+
+function reset_render_form_to_create_card_callback(event) {
+  const target = event.currentTarget.closest(".create_form_options");
+  let fragment = new DocumentFragment();
+
+  fragment = render_create_card_option(fragment);
+
+  target.replaceWith(fragment);
 }
