@@ -228,6 +228,10 @@ function render_form_for_edit_title_list(parent_element, current_title) {
   form_for_edit_title_element.className = "edit_title";
   form_for_edit_title_element.innerHTML = `<input type="text" name="title" id="title" value="${current_title}" />`;
 
+  form_for_edit_title_element.addEventListener("keydown", (event) =>
+    cancel_edit_title_callback(event, current_title)
+  );
+
   parent_element.append(form_for_edit_title_element);
   return parent_element;
 }
@@ -272,9 +276,23 @@ function create_list_api_callback(event) {
 }
 
 function modify_title_of_list_callback(event) {
+  const parent = event.currentTarget.closest(".list_head");
   const current_title = event.currentTarget.innerText;
   let fragment = new DocumentFragment();
   fragment = render_form_for_edit_title_list(fragment, current_title);
 
   event.currentTarget.replaceWith(fragment);
+  parent.querySelector("input").focus();
+}
+
+function cancel_edit_title_callback(event, current_title) {
+  if (event.key === "Escape") {
+    let p_element = document.createElement("p");
+    p_element.className = "list_name";
+    p_element.innerText = current_title;
+
+    p_element.addEventListener("click", modify_title_of_list_callback);
+
+    event.currentTarget.replaceWith(p_element);
+  }
 }
