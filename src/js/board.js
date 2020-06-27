@@ -3,7 +3,7 @@ import "@babel/polyfill";
 import {
   get_protected_url,
   post_protected_url,
-  // patch_protected_url,
+  patch_protected_url,
   //delete_protected_url,
 } from "./components/request_api.js";
 
@@ -64,16 +64,29 @@ function render_board_list(main_element, board) {
 }
 
 function render_all_lists(board_lists_element, lists) {
-  lists.forEach((list) => {
+  sort_asc(lists, (list) => list.pos).forEach((list) => {
     board_lists_element = render_add_list(board_lists_element, list);
   });
   return board_lists_element;
+}
+
+function sort_asc(list_element, fun) {
+  return list_element.sort((a, b) => {
+    if (fun(a) < fun(b)) {
+      return -1;
+    } else if (fun(a) > fun(b)) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 }
 
 function render_add_list(board_lists_element, list) {
   let list_element = document.createElement("div");
   list_element.className = "list";
   list_element.setAttribute("list_id", list.listId || list.id);
+  list_element.setAttribute("pos", list.pos);
 
   list_element = create_head_list(list_element, list);
   list_element = create_body_list(list_element, list);
@@ -232,6 +245,11 @@ function render_form_for_edit_title_list(parent_element, current_title) {
     cancel_edit_title_callback(event, current_title)
   );
 
+  form_for_edit_title_element.addEventListener(
+    "submit",
+    edit_title_api_callback
+  );
+
   parent_element.append(form_for_edit_title_element);
   return parent_element;
 }
@@ -259,8 +277,11 @@ function create_list_api_callback(event) {
   const title = target.querySelector("input").value;
   const board_id = capture_board_id();
   if (/^\w+/.test(title)) {
+    const new_pos =
+      parseInt(target.closest(".list").previousSibling.getAttribute("pos")) + 1;
     post_protected_url(`http://localhost:3000/boards/${board_id}/lists`, {
       name: title,
+      pos: new_pos,
     }).then(([status, data]) => {
       if (status == "error") {
         console.log(data);
@@ -294,5 +315,21 @@ function cancel_edit_title_callback(event, current_title) {
     p_element.addEventListener("click", modify_title_of_list_callback);
 
     event.currentTarget.replaceWith(p_element);
+  }
+}
+
+function edit_title_api_callback(event) {
+  event.preventDefault();
+  let target = event.currentTarget;
+  const new_title = target.querySelector("input").value;
+  if (/^\w+/.test(new_title)) {
+    const board_id = capture_board_id();
+    const list_id = target.closest(".list").getAttribute("list_id");
+    patch_protected_url(
+      `http://localhost:3000/boards/${board_id}/lists/${list_id}`,
+      { name: new_title }
+    ).then(([status, data]) => {
+      console.log(status);
+    });
   }
 }
