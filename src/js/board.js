@@ -4,7 +4,7 @@ import {
   get_protected_url,
   post_protected_url,
   patch_protected_url,
-  //delete_protected_url,
+  delete_protected_url,
 } from "./components/request_api.js";
 
 import * as plus_white_url from "../images/plus_white.svg";
@@ -109,6 +109,10 @@ function create_head_list(list_element, list) {
   list_head_element
     .querySelector("p")
     .addEventListener("click", modify_title_of_list_callback);
+
+  list_head_element
+    .querySelector(".close")
+    .addEventListener("click", delete_list_api_callback);
 
   list_element.append(list_head_element);
   return list_element;
@@ -344,4 +348,19 @@ function edit_title_api_callback(event) {
       }
     });
   }
+}
+
+function delete_list_api_callback(event) {
+  const target = event.currentTarget.closest(".list");
+  const list_id = target.getAttribute("list_id");
+  const board_id = capture_board_id();
+  delete_protected_url(
+    `http://localhost:3000/boards/${board_id}/lists/${list_id}`
+  ).then((status) => {
+    if (status == "error") {
+      return;
+    } else {
+      target.remove();
+    }
+  });
 }
