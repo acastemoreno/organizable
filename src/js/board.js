@@ -308,14 +308,20 @@ function modify_title_of_list_callback(event) {
 
 function cancel_edit_title_callback(event, current_title) {
   if (event.key === "Escape") {
-    let p_element = document.createElement("p");
-    p_element.className = "list_name";
-    p_element.innerText = current_title;
-
-    p_element.addEventListener("click", modify_title_of_list_callback);
+    let p_element = create_title_for_list(current_title);
 
     event.currentTarget.replaceWith(p_element);
   }
+}
+
+function create_title_for_list(current_title) {
+  let p_element = document.createElement("p");
+  p_element.className = "list_name";
+  p_element.innerText = current_title;
+
+  p_element.addEventListener("click", modify_title_of_list_callback);
+
+  return p_element;
 }
 
 function edit_title_api_callback(event) {
@@ -329,7 +335,13 @@ function edit_title_api_callback(event) {
       `http://localhost:3000/boards/${board_id}/lists/${list_id}`,
       { name: new_title }
     ).then(([status, data]) => {
-      console.log(status);
+      if (status == "error") {
+        console.log(data);
+      } else {
+        let p_element = create_title_for_list(new_title);
+
+        target.replaceWith(p_element);
+      }
     });
   }
 }
