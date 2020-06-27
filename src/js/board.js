@@ -2,7 +2,7 @@ import "../styles/board.scss";
 import "@babel/polyfill";
 import {
   get_protected_url,
-  // post_protected_url,
+  post_protected_url,
   // patch_protected_url,
   //delete_protected_url,
 } from "./components/request_api.js";
@@ -65,13 +65,18 @@ function render_board_list(main_element, board) {
 
 function render_all_lists(board_lists_element, lists) {
   lists.forEach((list) => {
-    let list_element = document.createElement("div");
-    list_element.className = "list";
-    list_element = create_head_list(list_element, list);
-    list_element = create_body_list(list_element, list);
-
-    board_lists_element.append(list_element);
+    board_lists_element = render_add_list(board_lists_element, list);
   });
+  return board_lists_element;
+}
+
+function render_add_list(board_lists_element, list) {
+  let list_element = document.createElement("div");
+  list_element.className = "list";
+  list_element = create_head_list(list_element, list);
+  list_element = create_body_list(list_element, list);
+
+  board_lists_element.append(list_element);
   return board_lists_element;
 }
 
@@ -168,19 +173,6 @@ function render_create_card_option(list_body_element, list) {
   return list_body_element;
 }
 
-function render_add_list_option(board_lists_element) {
-  let create_add_list_element = document.createElement("div");
-  create_add_list_element.className = "list add-a-list-button";
-
-  create_add_list_element.innerHTML = `<img src="${plus_white_url.default}" alt="" />
-  <p>Add a list</p>`;
-
-  create_add_list_element.addEventListener("click", create_list_callback);
-
-  board_lists_element.append(create_add_list_element);
-  return board_lists_element;
-}
-
 function render_create_list(board_lists_element) {
   let create_list_element = document.createElement("div");
   create_list_element.className = "list";
@@ -201,10 +193,27 @@ function render_create_list(board_lists_element) {
   </form>`;
 
   create_list_element
+    .querySelector("form.create_list")
+    .addEventListener("submit", create_list_api_callback);
+
+  create_list_element
     .querySelector("a")
     .addEventListener("click", return_create_list_callback);
 
   board_lists_element.append(create_list_element);
+  return board_lists_element;
+}
+
+function render_add_list_option(board_lists_element) {
+  let create_add_list_element = document.createElement("div");
+  create_add_list_element.className = "list add-a-list-button";
+
+  create_add_list_element.innerHTML = `<img src="${plus_white_url.default}" alt="" />
+  <p>Add a list</p>`;
+
+  create_add_list_element.addEventListener("click", create_list_callback);
+
+  board_lists_element.append(create_add_list_element);
   return board_lists_element;
 }
 
@@ -213,7 +222,7 @@ function create_list_callback(event) {
 
   fragment = render_create_list(fragment);
 
-  this.replaceWith(fragment);
+  event.currentTarget.replaceWith(fragment);
 }
 
 function return_create_list_callback(event) {
@@ -223,4 +232,26 @@ function return_create_list_callback(event) {
   fragment = render_add_list_option(fragment);
 
   event.target.closest(".list").replaceWith(fragment);
+}
+
+function create_list_api_callback(event) {
+  event.preventDefault();
+  const target = event.currentTarget;
+  const title = target.querySelector("input").value;
+  const board_id = capture_board_id();
+  if (/^\w+/.test(title)) {
+    post_protected_url(`http://localhost:3000/boards/${board_id}/lists`, {
+      name: title,
+    }).then(([status, data]) => {
+      if (status == "error") {
+        console.log(data);
+      } else {
+        data.cards = [];
+        let fragment = new DocumentFragment();
+        fragment = render_add_list(fragment, data);
+        fragment = render_add_list_option(fragment);
+        target.closest(".list").replaceWith(fragment);
+      }
+    });
+  }
 }

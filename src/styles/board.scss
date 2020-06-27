@@ -37,7 +37,11 @@ main {
         justify-content: space-between;
         column-gap: 8px;
         align-items: center;
-        cursor: pointer;
+
+        .list_name,
+        .close {
+          cursor: pointer;
+        }
 
         .list_name {
           overflow: hidden;
