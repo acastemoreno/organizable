@@ -131,17 +131,24 @@ function create_body_list(list_element, list) {
 
 function render_all_card(list_body_element, list) {
   list.cards.forEach((card) => {
-    let card_element = document.createElement("div");
-    card_element.className = "card";
-
-    card_element = render_labels_for_card(card_element, card);
-    card_element = render_title_for_card(card_element, card);
-    card_element = render_check_list_for_card(card_element, card);
-
-    list_body_element.append(card_element);
+    list_body_element = render_card(list_body_element, card);
   });
 
   return list_body_element;
+}
+
+function render_card(parent_element, card) {
+  let card_element = document.createElement("div");
+  card_element.className = "card";
+  card_element.setAttribute("card_id", card.cardId || card.id);
+  card_element.setAttribute("pos", card.pos);
+
+  card_element = render_labels_for_card(card_element, card);
+  card_element = render_title_for_card(card_element, card);
+  card_element = render_check_list_for_card(card_element, card);
+
+  parent_element.append(card_element);
+  return parent_element;
 }
 
 function render_labels_for_card(card_element, card) {
@@ -285,6 +292,10 @@ function render_form_option_to_create_card(fragment) {
     .querySelector("a")
     .addEventListener("click", reset_render_form_to_create_card_callback);
 
+  form_container_element
+    .querySelector("form")
+    .addEventListener("submit", create_card_api_callback);
+
   fragment.append(form_container_element);
   return fragment;
 }
@@ -406,10 +417,42 @@ function render_form_to_create_card_callback(event) {
 }
 
 function reset_render_form_to_create_card_callback(event) {
+  event.preventDefault();
   const target = event.currentTarget.closest(".create_form_options");
   let fragment = new DocumentFragment();
 
   fragment = render_create_card_option(fragment);
 
   target.replaceWith(fragment);
+}
+
+function create_card_api_callback(event) {
+  event.preventDefault();
+  const target = event.currentTarget;
+  const card_name = target.querySelector("input").value;
+  if (/^\w+/.test(card_name)) {
+    const list_id = target.closest(".list").getAttribute("list_id");
+    const div_form = target.closest(".create_form_options");
+    const next_pos = parseInt(div_form.previousSibling.getAttribute("pos")) + 1;
+    const hash = {
+      name: card_name,
+      pos: next_pos,
+    };
+    post_protected_url(
+      `http://localhost:3000/lists/${list_id}/cards`,
+      hash
+    ).then(([status, data]) => {
+      if (status === "error") {
+        console.log(data);
+      } else {
+        data.checkItems = 0;
+        let fragment = new DocumentFragment();
+
+        fragment = render_card(fragment, data);
+        fragment = render_create_card_option(fragment);
+
+        fragment = div_form.replaceWith(fragment);
+      }
+    });
+  }
 }
