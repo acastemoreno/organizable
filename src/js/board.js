@@ -7,11 +7,16 @@ import {
   delete_protected_url,
 } from "./components/request_api.js";
 
+import MicroModal from "micromodal";
+
 import * as plus_white_url from "../images/plus_white.svg";
 import * as close_header_url from "../images/close_header.svg";
 import * as plus_gray_url from "../images/plus_gray.svg";
 import * as check_url from "../images/check.svg";
 import * as cancel_url from "../images/cancel.svg";
+
+MicroModal.init();
+MicroModal.show("modal-1");
 
 refresh_board_content();
 

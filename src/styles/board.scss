@@ -244,3 +244,134 @@ main {
     }
   }
 }
+
+@import "components/modal.scss";
+
+/**************************\
+  Modal Custom
+\**************************/
+
+.micromodal-slide {
+  .modal__container {
+    border-radius: 4px;
+    width: 768px;
+    height: min-content;
+    padding: 14px 19px 14px 36px;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+
+    .modal__header {
+      padding-left: 16px;
+
+      .list_caption {
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 20px;
+        /* identical to box height, or 125% */
+
+        color: #172b4d;
+      }
+
+      .modal__close {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .modal__content {
+      padding-top: 22px;
+      margin: 0px;
+      display: grid;
+      grid-template-columns: 1fr 213px;
+      column-gap: 48px;
+
+      .list_content {
+        section {
+          margin-top: 24px;
+
+          &:first-child {
+            margin-top: 0px;
+          }
+
+          .caption {
+            margin-bottom: 9px;
+            font-weight: bold;
+            font-size: 12px;
+            line-height: 16px;
+            color: #172b4d;
+          }
+        }
+
+        .list_labels .labels {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+
+          gap: 8px;
+
+          .label {
+            height: 24px;
+            padding: 4px;
+            width: 100%;
+
+            border-radius: 3px;
+
+            p {
+              font-weight: normal;
+              font-size: 12px;
+              line-height: 16px;
+              /* identical to box height, or 133% */
+
+              color: #ffffff;
+              min-width: 72px;
+            }
+          }
+        }
+
+        .list_description .existing_description {
+          p {
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+            /* identical to box height, or 143% */
+
+            color: #172b4d;
+          }
+          a {
+            margin-top: 9px;
+            text-decoration: none;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 20px;
+
+            color: #172b4d;
+            background: rgba(9, 30, 66, 0.04);
+            border-radius: 3px;
+            padding: 2px 23px;
+            border: none;
+          }
+        }
+      }
+
+      .list_control {
+        width: 100%;
+
+        .delete_card {
+          margin-top: 30px;
+          padding-top: 6px;
+          padding-bottom: 6px;
+          width: 100%;
+          background: rgba(235, 90, 70, 0.5);
+          border-radius: 3px;
+          text-decoration: none;
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 20px;
+          text-align: center;
+
+          color: #172b4d;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
