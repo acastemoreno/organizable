@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;0,700;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <title>Board</title>
+  </head>
+  <body>
+    <header>
+      <img src="images/logo.svg" alt="" />
+    </header>
+    <main class="blue">
+      <div class="board_info">
+        <h1>asdsa</h1>
+      </div>
+      <div class="board_lists">
+        <div class="list">
+          <div class="list_head">
+            <p class="list_name">
+              To Do
+            </p>
+            <div class="close">
+              <img src="images/close_header.svg" alt="" />
+            </div>
+          </div>
+          <div class="list_body">
+            <div class="card">
+              <div class="card_title">
+                <p>Login & Logout</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card_title">
+                <p>Holi Woli</p>
+              </div>
+            </div>
+            <div class="create_form_options">
+              <form class="create_card_form">
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  placeholder="Enter a title for this card..."
+                />
+                <div class="control">
+                  <button class="submit" type="submit">Add Card</button>
+                  <a href="#">
+                    <img src="images/cancel.svg" alt="" />
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="list">
+          <div class="list_head">
+            <form class="edit_title">
+              <input type="text" name="title" id="" />
+            </form>
+            <div class="close">
+              <img src="images/close_header.svg" alt="" />
+            </div>
+          </div>
+          <div class="list_body">
+            <div class="card">
+              <div class="labels">
+                <div class="label lime"></div>
+                <div class="label blue"></div>
+              </div>
+              <div class="card_title">
+                <p>Login & Logout</p>
+              </div>
+              <div class="check_list">
+                <img src="images/check.svg" />
+                <p>4/6</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="labels">
+                <div class="label lime"></div>
+                <div class="label blue"></div>
+              </div>
+              <div class="card_title">
+                <p>Login & Logout</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card_title">
+                <p>Login & Logout</p>
+              </div>
+              <div class="check_list">
+                <img src="images/check.svg" />
+                <p>3/10</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card_title">
+                <p>Login & Logout</p>
+              </div>
+            </div>
+            <div class="create_card">
+              <img src="images/plus_gray.svg" alt="" />
+              <p>Add another card</p>
+            </div>
+          </div>
+        </div>
+        <div class="list">
+          <form class="create_list">
+            <input
+              type="text"
+              name=""
+              id=""
+              placeholder="Enter list title..."
+            />
+            <div class="control">
+              <button class="submit" type="submit">Add List</button>
+              <a href="#">
+                <img src="images/cancel.svg" alt="" />
+              </a>
+            </div>
+          </form>
+        </div>
+        <div class="list add-a-list-button">
+          <img src="images/plus_white.svg" alt="" />
+          <p>Add a list</p>
+        </div>
+      </div>
+    </main>
+    <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div
+          class="modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-1-title"
+        >
+          <section class="modal__header">
+            <p class="list_caption">Login & Logout</p>
+            <div class="modal__close">
+              <img
+                src="images/cancel.svg"
+                aria-label="Close modal"
+                data-micromodal-close
+              />
+            </div>
+          </section>
+          <section class="modal__content" id="modal-1-content">
+            <div class="list_content">
+              <section class="list_labels">
+                <p class="caption">LABELS</p>
+                <div class="labels">
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgentdsad dsa d sa ass</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label red">
+                    <p>Urgent</p>
+                  </div>
+                  <div class="label blue"></div>
+                </div>
+              </section>
+              <section class="list_description">
+                <p class="caption">DESCRIPTION</p>
+                <div class="existing_description">
+                  <p>
+                    This is the description of the card. It could be long or
+                    short. This is the description of the card. It could be long
+                    or short. This is the description of the card. It could be
+                    long or short.
+                  </p>
+                  <a href="#">Edit</a>
+                </div>
+              </section>
+              <section class="list_checklist">
+                <p class="caption">CHECKLISTS</p>
+              </section>
+            </div>
+            <div class="list_control">
+              <div class="section labels_board">
+                <p class="caption">LABELS</p>
+                <div class="labels">
+                  <div class="label">
+                    <div class="panel">
+                      Urgent
+                    </div>
+                    <div class="edit_label">
+                      <img src="images/edit.svg" alt="" />
+                    </div>
+                  </div>
+                  <div class="label">
+                    <div class="panel">
+                      Urgentdsad dsa d sa
+                    </div>
+                    <div class="edit_label">
+                      <img src="images/edit.svg" alt="" />
+                    </div>
+                  </div>
+                  <div class="label">
+                    <div class="panel">
+                      Urgent
+                    </div>
+                    <div class="edit_label">
+                      <img src="images/edit.svg" alt="" />
+                    </div>
+                  </div>
+                  <div class="label">
+                    <div class="panel">
+                      Urgent
+                    </div>
+                    <div class="edit_label">
+                      <img src="images/edit.svg" alt="" />
+                    </div>
+                  </div>
+                </div>
+                <div class="create_label">
+                  <a href="#">Create a new label</a>
+                </div>
+              </div>
+              <div class="section create_checklist">
+                <p class="caption">CHECKLISTS</p>
+                <form class="create_checklist_form">
+                  <input type="text" placeholder="Checklist..." />
+                  <button type="submit">Add</button>
+                </form>
+              </div>
+              <div class="delete_card">
+                Delete Card
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
