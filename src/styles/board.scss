@@ -305,13 +305,14 @@ main {
         .list_labels .labels {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-
           gap: 8px;
+          align-items: center;
 
           .label {
-            height: 24px;
+            height: fit-content;
             padding: 4px;
             width: 100%;
+            min-height: 24px;
 
             border-radius: 3px;
 
@@ -354,6 +355,107 @@ main {
 
       .list_control {
         width: 100%;
+
+        .section {
+          p.caption {
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 16px;
+
+            color: #172b4d;
+          }
+        }
+
+        .labels_board {
+          .labels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 5px;
+
+            .label {
+              display: grid;
+              grid-template-columns: 1fr min-content;
+              align-items: center;
+
+              .panel {
+                background: #61bd4f;
+                border-radius: 3px;
+                padding: 5px 4px;
+
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 16px;
+
+                color: #ffffff;
+              }
+
+              .edit_label {
+                margin-left: 9px;
+              }
+            }
+          }
+          .create_label {
+            margin-top: 8px;
+            width: 100%;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 20px;
+
+            text-align: center;
+            background: rgba(9, 30, 66, 0.04);
+            border-radius: 3px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+
+            a {
+              text-decoration: none;
+              color: #172b4d;
+            }
+          }
+        }
+
+        .create_checklist {
+          margin-top: 16px;
+
+          .create_checklist_form {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            background: #ebecf0;
+            border-radius: 3px;
+            padding: 8px;
+
+            input {
+              background: #ffffff;
+              border: 1px solid #0079bf;
+              border-radius: 3px;
+              height: 24px;
+              padding-left: 7px;
+              padding-right: 7px;
+
+              font-weight: normal;
+              font-size: 12px;
+              line-height: 20px;
+              /* identical to box height, or 167% */
+            }
+
+            button {
+              margin-top: 8px;
+              width: fit-content;
+              padding: 6px 25px;
+              background: #5aac44;
+              border-radius: 3px;
+
+              border: none;
+
+              font-weight: normal;
+              font-size: 14px;
+              line-height: 20px;
+
+              color: #ffffff;
+            }
+          }
+        }
 
         .delete_card {
           margin-top: 30px;
